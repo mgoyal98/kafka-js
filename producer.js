@@ -5,13 +5,15 @@ const producer = kafka.producer();
 
 const main = async () => {
   await producer.connect();
-  const message = await producer.send({
-    topic: config.kafka.topic,
-    messages: [{ value: 'Hello KafkaJS user!' }],
-  });
-  console.log('\n\n========== Message Produced ===========');
-  console.log(message);
-  console.log('========== ======== ===========');
+  for (let i = 0; i < 10; i++) {
+    const message = await producer.send({
+      topic: config.kafka.topic,
+      messages: [{ key: `id_${i}`, value: `Hello KafkaJS user! id_${i}` }],
+    });
+    console.log('\n\n========== Message Produced ===========');
+    console.log(message);
+    console.log('========== ======== ===========');
+  }
   await producer.disconnect();
 };
 
